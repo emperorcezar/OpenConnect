@@ -1,0 +1,26 @@
+{% extends "reports/subnav.html" %}
+
+{% block main %}
+    {% if can_export %}
+    Download this report as: <a href="{% url getcsv "report" %}">CSV</a> <a href="{% url getpdf "report" %}">PDF</a>
+    {% endif %}
+    <div style="padding-top: 3px;">
+    <form action="{% url reports-delete report.id %}" method="POST">
+        <input type="submit" name="submit" value="Delete this report"/>
+    </form>
+    </div>
+    <table class="results" cellpadding="0" cellspacing="0">
+        <tr>
+        {% for f in displayfields %}
+            <th style="padding: 3px;">{{ f.1 }}</th>
+        {% endfor %}
+        </tr>
+        {% for data in displaydata %}
+            <tr class="{% cycle 'stripe' '' %}">
+            {% for c in data %}
+                <td>{{ c.1 }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock main %}

@@ -1,0 +1,44 @@
+{% extends "events_subnav.html" %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.Button");
+{% endblock %}
+
+{% block javascript %}
+function button_toggle(data, ioArgs){
+    if(data != 'False'){
+	    button = dijit.byId('pending_button_'+data);
+
+	    if(button.label == ''){
+		current_value = button.containerNode.textContent;
+	    }else{
+		current_value = button.label;
+	    }
+
+	    if(current_value == "Complete"){
+		button.setLabel("Pending");
+	    }else{
+		button.setLabel("Complete");
+	    }
+	}
+}
+
+function pending_toggle(event, contact){
+    dojo.xhrPost({
+	    url: '{% url pending_toggle %}',
+		load: button_toggle,
+		error: function(data, ioArgs){console.dir(data);alert(data);},
+		content: {event:event, contact:contact}
+    });
+}
+{% endblock javascript %}
+
+{% block main %}
+<h1>Registrant Pending Status</h1>
+<div id="content">
+{% for registrant in registrants %}
+<label class="registrant_pending_label">{{ registrant.contact.last_name }}, {{ registrant.contact.first_name }}</label><button dojoType="dijit.form.Button" onclick="pending_toggle({{ event.id }},{{ registrant.contact.id }});" id="pending_button_{{ registrant.contact.id }}">{% if registrant.pending %}Pending{% else %}Complete{% endif %}</button><br />
+{% endfor %}
+</div>
+{% endblock main %}
+

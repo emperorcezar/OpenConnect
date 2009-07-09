@@ -1,0 +1,20 @@
+{% extends "contacts/subnav.html" %}
+
+{% block extranav %}
+{% if contact.registrant_set.all %}<li><a href="{% url registered-events contact %}">Registered Events</a></li>{% endif %}
+{% endblock extranav %}
+
+{% block main %}
+<h1>Registered Events</h1>
+<div id="content">
+  <table width="100%">
+    <tbody>
+     {% for e in events %}
+     <tr class="linked {% cycle 'stripe' '' %}">
+       <td onclick="location.href='{% url event-show e.event.slug %}';"><a href="{% url event-show e.event.slug %}">{{ e.event }}</a></td>
+     </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock main %}

@@ -1,0 +1,9 @@
+include setup.py
+include README
+recursive-include openconnect *
+recursive-include docs *
+exclude openconnect/settings.py
+prune static/attachments/*
+prune openconnect/resources
+include openconnect/resources/emailsender.py
+recursive-exclude openconnect *.pyc

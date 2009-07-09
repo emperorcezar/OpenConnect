@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block belowgradient %}
+    <h1>Goodbye</h1>
+    <p>Are you sure you want to unsubscribe the contact {{ c.first_name }} {{ c.last_name }}?<br />
+      <a href="{% url emails-unsubscribe c.id %}?confirm=1">Yes</a>
+    </p>
+
+{% endblock belowgradient %}

@@ -1,0 +1,19 @@
+{% extends "emails/subnav.html" %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+<table class="emaillist" cellpadding="0" cellspacing="0">
+{% for e in object_list %}
+    <tr class="{% cycle 'stripe' '' %}">
+        {% ifnotequal "sent mail" e.status %}
+        <td><a href="{% url emails-update e.id%}">{{ e.subject }}</a><br>
+            Last Edited: {{e.last_edited}} <br></td>
+        <td style="text-align: right;"><form action="{% url emails-delete-template e.id %}" method="GET"><input type="submit" value="delete"/></form></td>
+        {% else %}
+        <td><a href="{% url emails-detail e.id%}">{{ e.subject }}</a><br>
+            Last Edited: {{e.last_edited}} <br></td>
+        {% endifnotequal %}
+    </tr>
+{% endfor %}
+</table>
+{% endblock main %}

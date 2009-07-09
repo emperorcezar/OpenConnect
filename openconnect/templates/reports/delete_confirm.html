@@ -1,0 +1,13 @@
+{% extends "contacts/subnav.html" %}
+
+{% block main %}
+<h1>Delete {{ report.name }}</h1>
+<div id="content">
+    <form method="POST" action="{% url reports-delete report.id %}">
+        <div id="confirmdeleteform">
+            <p>Are you sure you want to delete {{ report.name }}?</p>
+            <input type="submit" name="submit" value="Yes, delete the report" />&nbsp;&nbsp;<input type="submit" name="submit" value="No, go back"/>
+        </div>
+    </form>
+</div>
+{% endblock main %}

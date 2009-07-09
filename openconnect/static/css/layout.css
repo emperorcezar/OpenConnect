@@ -1,0 +1,23 @@
+#container {
+    margin: 32px;
+}
+
+#loading {
+    font-size: 2em;
+    padding-top: 30px;
+}
+
+#subnav-block {
+    margin: 15px 0px 5px 0px;
+}
+
+.dottedline {
+    border-bottom: 2px dotted #D7EAC1; 
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.footer {
+    clear: both;
+    padding-top:6px;
+}

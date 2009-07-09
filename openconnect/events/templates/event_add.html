@@ -1,0 +1,47 @@
+{% extends "events_subnav.html" %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.InlineEditBox")
+dojo.require("dijit.Editor");
+{% endblock %}
+
+{% block main %}
+{% if after_add %}
+<h1>Add Event Continued...</h1>
+<div>
+{% else %}
+<style>
+.RichTextEditable {
+    background:#FFFFFF url(images/validationInputBg.png) repeat-x scroll left top;
+    border:1px solid #B3B3B3;
+    display: block;
+}
+</style>
+<div id="content">
+<h1>{% block formtitle %}Add Event{% endblock %}</h1>
+<div id="content">
+    <form method="POST" action=".">
+        <div id="eventform">
+	  <table class="form" valign="top">
+            {{ form.as_table }}
+	  </table>
+	  <script type="text/javascript">
+	    function messageHandler(idOfBox, value) {
+	        dojo.byId(idOfBox+"_hidden").setAttribute('value',value);
+ 	    }
+	  </script>
+          <div class="row">
+            <span class="item submit"><input type="submit" value="{% block submitvalue %}Add Event{% endblock %}" /></span>
+          </div>
+        </div>
+    </form>
+<br />
+{% endif %}
+{% block aftereventform %}
+{% endblock %}
+</div>
+{% endblock main %}

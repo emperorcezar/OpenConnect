@@ -1,0 +1,37 @@
+{% extends "events_subnav.html" %}
+{% load comparison %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.Button");
+dojo.require("dijit.Dialog");
+{% endblock %}
+
+{% block javascript %}
+var delete_id = null;
+{% endblock %}
+{% block main %}
+<div dojoType="dijit.Dialog" id="delete-dialog" title="Delete Event" style="display:none;">
+<p>Are you sure you want to delete this event?</p>
+<button dojoType="dijit.form.Button" onclick="location.href = '/events/delete/'+delete_id+'/';">Yes</button>
+<button dojoType="dijit.form.Button" onclick="dijit.byId('delete-dialog').hide();delete_id=null;">No</button>
+</div>
+
+<h1>Emails for {{ event }}</h1>
+<div id="content">
+ <table class="results" cellspacing="0" cellpadding="0">
+   <tbody>
+     <tr>
+       <th>From</th>
+       <th>Message</th>
+     </tr>
+
+     {% for e in emails %}
+     <tr class="linked {% cycle 'stripe' '' %}">
+       <td onclick="location.href='{% url emails-detail e.id %}';"><a href="{% url emails-detail e.id %}">{% if not e.from_email %}{{ e.user.email }}{% else %}{{ e.from_email }}{% endif %}</a></td>
+       <td onclick="location.href='{% url emails-detail e.id %}';"><a href="{% url emails-detail e.id %}"><span class="description-snippet">{% if_greater e.message_wordcount 8 %}{{ e.message|truncatewords:"8"|striptags }}...{% else %}{{ e.message|striptags }}{% endif_greater %}</span></a></td>
+     </tr>
+     {% endfor %}
+     </tbody>
+   </table>
+</div>
+{% endblock main %}

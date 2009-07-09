@@ -1,0 +1,117 @@
+{% extends "events_subnav.html" %}
+
+{% block javascript %}
+function search(){
+    dojo.fadeIn({node:'waiting', duration:500}).play()
+
+    dojo.xhrPost({
+	url: '{% url execute-search %}',
+	load: populate,
+	form: 'search',
+	error: function (error) {
+	    var text = document.createTextNode(error);
+	    dojo.byId('search_box').appendChild(text);
+            console.error ('Error: ', error);
+        },
+    });
+
+    
+
+}
+
+function populate(data){
+    var returned_data = dojo.fromJson(data);
+
+    //Clear old results
+    var search_table = dojo.byId('search_table');    
+    var new_table = search_table.cloneNode(false);
+    search_table.parentNode.replaceChild(new_table,search_table);
+    search_table = dojo.byId('search_table');    
+
+
+    var results = Array();
+
+    for( var key in returned_data['results'] ){
+	var tr = document.createElement('tr');
+	tr.setAttribute('onClick', "location.href='"+returned_data['results'][key].link+"'");
+	tr.setAttribute('class', "linked");
+	var td = document.createElement('td');
+	
+	var a = document.createElement('a');
+	a.setAttribute('href', returned_data['results'][key].link);
+	a.appendChild(document.createTextNode(returned_data['results'][key].title));
+	td.appendChild(a);
+	tr.appendChild(td);
+
+	var td = document.createElement('td');
+	td.appendChild(document.createTextNode(returned_data['results'][key].description));
+	tr.appendChild(td);
+	
+	var td = document.createElement('td');
+	td.appendChild(document.createTextNode(returned_data['results'][key].start));
+	tr.appendChild(td);
+
+	var td = document.createElement('td');
+	td.appendChild(document.createTextNode(returned_data['results'][key].end));
+	tr.appendChild(td);
+
+	dojo.style(tr, 'opacity', '0');
+	tr.setAttribute('id', 'result_'+returned_data['results'][key].id);
+	search_table.appendChild(tr);
+	results.push(dojo.fadeIn({node:'result_'+returned_data['results'][key].id, duration:10}));
+    }
+    dojo.byId('num_results').lastChild.nodeValue = returned_data['num_results'];
+
+    dojo.style("search_box", "opacity", "1");
+    
+    if(returned_data['num_results'] > 0){
+	dojo.style('table_header', 'opacity', '1');
+	dojo.fx.chain(results).play();
+    }
+    else {
+	dojo.style('table_header', 'opacity', '0');
+    }
+    dojo.fadeOut({node:'waiting', duration:500}).play()
+}
+{% endblock javascript %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Form");
+dojo.require("dojo.fx");
+{% endblock %}
+
+{% block main %}
+<div id="content">
+<h1>Search Events</h1>
+<div id="content">
+    <form method="POST" action="." dojoType="dijit.form.Form" name="search" id="search">
+        <div style="float:left;padding-right:10px;">
+	  <strong>Search</strong><br />
+	  <input type="text" dojoType="dijit.form.TextBox" name="search" style="margin-top:3px;font-size:1em !important;">
+        </div>
+	<div style="float:left;padding-right:10px;">
+	  <strong>Date</strong><br />
+	  <input style="margin-right:10px;margin-top:3px;font-size:1em !important;" type="text" class="dijitShort" dojoType="dijit.form.DateTextBox" name="date">
+	</div>
+	<div>
+	  <button dojoType="dijit.form.Button" onClick="search();" style="margin-top:13px;"><img height="12" width="12" src="{{ MEDIA_URL }}images/search.png" align="bottom"></button><img src="{{ MEDIA_URL}}images/waiting.gif"  style="margin-top:10px;opacity:0;" align="top" id="waiting">
+	</div>
+    </form>
+    <div id="search_box" style="opacity:0;">
+    <h2>Search Results</h2>
+    <strong>Results: </strong><strong id="num_results">0</strong><br />
+      <table class="results">
+      <thead id="table_header" style="opacity:0">
+	  <th>Title</th><th>Description</th><th>Start</th><th>End</th>
+	</thead>
+	<tbody id="search_table">
+	</tbody>
+      </table>
+    </div>
+<br />
+</div>
+{% endblock main %}

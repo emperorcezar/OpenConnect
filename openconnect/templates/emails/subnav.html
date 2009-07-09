@@ -1,0 +1,24 @@
+{% extends "nav.html" %}
+
+{% block emailsnav %} currentTab{% endblock emailsnav %}
+
+{% block subnav %}
+<div id="subnav-block">
+    <ul id="subnav">
+        <li>
+            <a href="{% url emails-create %}">New email</a>
+        </li>
+        <li>
+            <a href="{% url emails-listdraft %}">Drafts</a>
+        </li>
+        <li>
+            <a href="{% url emails-listtemplate %}">Templates</a>
+        </li>
+        <li>
+            <a href="{% url emails-listsent %}">Sent mail</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock subnav %}
+

@@ -1,0 +1,30 @@
+<div id="advancedsearch">
+  <form method="POST" action="{% block advurl %}{% url advanced-search %}?continue=1{% endblock advurl %}">
+    <input type="hidden" name="searchtype" value="advanced" />
+    <div id="query1" class="row">
+        <select name="attribute">
+          {% for attr in contactattrs %}
+          <option value="{{ attr.0 }}">{{ attr.1 }}</option>
+          {% endfor %}
+        </select>
+        <select name="condition">
+          <option>contains</option>
+          <option>doesn't contain</option>
+          <option>is</option>
+          <option>is empty</option>
+        </select>
+        <input type="text" name="query" />
+        &nbsp;<input id="plusbutton" name="and" type="submit" value="and"/>
+        &nbsp;<input id="plusbutton" name="or" type="submit" value="or"/>
+
+    </div>
+    <div id="advbuttons" class="row">
+      {% block advancedbuttons %}
+      
+      <input type="submit" name="search" value="{% if request.GET.continue %}New {% endif %}Search" />
+      {{ request }}
+      {% endblock advancedbuttons %}
+    </div>
+  </form>
+</div>
+

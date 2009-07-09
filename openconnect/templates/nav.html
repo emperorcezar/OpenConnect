@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block belowgradient %}
+
+<div id="tabContainer">
+    <div class="logoutlink">
+        You're logged in as {{ user.first_name }} {{ user.last_name }}. <a href="/accounts/logout/">Log Out</a>
+    </div>
+
+    <div class="tab firstTab{% block homenav %}{% endblock homenav %}">
+        <a href="/">Home</a>
+    </div>
+
+    <div class="tab{% block contactsnav %}{% endblock contactsnav %}">
+        <a href="{% url contacts %}">Contacts</a>
+    </div>
+
+    <div class="tab{% block eventsnav %}{% endblock eventsnav %}">
+        <a href="/events/">Events</a>
+    </div>
+
+    <div class="tab{% block emailsnav %}{% endblock emailsnav %}">
+        <a href="{% url emails-create %}">Email</a>
+    </div>
+
+    <div class="tab{% block reportsnav %}{% endblock reportsnav %}">
+        <a href="{% url reports-create %}">Reports</a>
+    </div>
+</div>
+
+{% block subnav %}
+{% endblock subnav %}
+
+
+{% endblock belowgradient %}
+

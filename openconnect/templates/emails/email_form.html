@@ -1,0 +1,117 @@
+{% extends "emails/subnav.html" %}
+
+{% block dojorequires %}
+        dojo.require("dijit.Editor");
+        dojo.require("dijit.form.FilteringSelect");
+{% endblock %}
+
+{% block javascript %}
+function submitEmailform(){
+    
+    if(document.emailform.subject.value == '') {
+	document.emailform.subject.value='None Specified';
+    } 
+    document.emailform.action='{% url emails-addrecipients %}'; 
+    copyEditorValue(); 
+    document.emailform.submit(); 
+}
+{% endblock javascript %}
+
+{% block beforeeverything %}
+<div id="blackout" class="">
+{% endblock beforeeverything %}
+
+{% block aftereverything %}
+</div>
+{% endblock aftereverything %}
+
+{% block main %}
+{% if email %}
+<h1>Edit {{ email.status|capfirst }}</h1>
+<div id="content">
+    <form enctype="multipart/form-data" name="emailform" method="POST" action="{% url emails-update email.id %}">
+    <input type="hidden" name="emailid" value="{{ email.id }}" />
+{% else %}
+<h1>New email</h1>
+<div id="content">
+    <form enctype="multipart/form-data" name="emailform" method="POST" action="{% url emails-create %}">
+{% endif %}
+        <div id="createemailform">
+            <div class="row">
+                <span class="item submit">
+                    <input type="submit" name="Submit" value="Save as draft" onclick="copyEditorValue();"/>
+                    <input type="submit" name="Submit" value="Save as template" onclick="copyEditorValue();"/>
+                    <input type="button" name="Submit" value="Send" onclick="if(validateMessage()){copyEditorValue();showPreview();}" />
+                </span>
+            </div>
+            <div class="row">
+                <span class="item label"><label for="id_recipients">Recipients</label>:</span>
+                <span class="item input">
+                  {% if email %}
+                    {% ifnotequal email.recipients.count 0 %}
+                        ({{ email.recipients.count }} recipients)
+                    {% endifnotequal %}
+                    {% endif %}
+
+		  {% if email.recipients.all %}{% for c in email.short_recipients %}{{ c.email }}, {% endfor %} ...<br />
+                        {% endif %}
+			<input type="button" value="Search for contacts" onclick="submitEmailform();"/> or 
+		   <select name="searchrecipients" id="searchrecipients">
+                        <option selected="true" value="-9999">Saved search results</value>
+                        {% if savedsearches %}
+                        {% for s in savedsearches %}
+                        <option value="{{ s.id }}">&nbsp;&nbsp;{{ s.name }}</value>
+                        {% endfor %}
+                        {% else %}
+                        <option value="-9999">&nbsp;&nbsp;You have none</value>
+                        {% endif %}
+                    </select>
+                    
+                </span>
+            </div>
+            <div class="row">
+                <span class="item label">{{ form.from_email.label_tag }}:</span>
+                <span class="item input">{{ form.from_email.errors }}{{ form.from_email }}</span>
+            </div>
+
+            <div class="row">
+                <span class="item label">{{ form.subject.label_tag }}:</span>
+                <span class="item input">{{ form.subject.errors }}{{ form.subject }}</span>
+            </div>
+	    
+            {% if atchfilename %}
+            <div class="row">
+              <span class="item label"></span>
+              <span class="item input">Current attachment: {{ atchfilename }}</span>
+            </div>
+            {% endif %}
+            <div class="row">
+                <span class="item label">{{ form.attachment.label_tag }}:</span>
+                <span class="item input">{{ form.attachment.errors }}{{ form.attachment }}</span>
+            </div>
+	    <div class="row">
+                <span class="item label">{{ form.event.label_tag }}:</span>
+                <span class="item input">{{ form.event.errors }}{{ form.event }}</span>
+            </div>
+            <div class="row">
+                <span class="item label">{{ form.message.label_tag }}:</span>
+                <span style="border: 1px solid black;" class="item input">{{ form.message.errors }}{{ form.message }}</span>
+            </div>
+            <input id="messageformelement" type="hidden" name="message" value="" />
+            <br/><br/>
+            <div class="row">
+                <span class="item submit">
+                    <input type="submit" name="Submit" value="Save as draft" onclick="copyEditorValue();" />
+                    <input type="submit" name="Submit" value="Save as template" onclick="copyEditorValue();" />
+                    <input type="button" name="Submit" value="Send" onclick="if(validateMessage()){copyEditorValue();showPreview();}" />
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="hideyhole" style="display: none;">
+    <div id="preview" class="preview">
+        <p>this is a preview</p>
+    </div>
+</div>
+{% endblock main %}

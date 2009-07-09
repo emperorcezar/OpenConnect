@@ -1,0 +1,28 @@
+{% extends "emails/subnav.html" %}
+{% block dojorequires %}
+        dojo.require("dijit.Editor");
+{% endblock %}
+{% block main %}
+<h1>{{ object.status|capfirst }} > {{ object.subject }}</h1>
+{% ifequal object.status "sent mail" %}
+    <form action="{% url emails-selectcontactsfromsentmail %}" method="POST">
+        <textarea rows="3" cols="40">{% for c in object.short_recipients %}"{{ c.first_name }} {{ c.last_name }}" &lt;{{ c.email }}&gt;,{% endfor %}...</textarea>
+        <input type="Submit" value="Select these contacts">
+        <input type="hidden" name="emailid" value="{{ object.id }}">
+    </form>
+    <br>
+    {{ object.message|safe }}
+{% else %}
+
+<form action="{% url emails-update object.id %}" method="POST" onSubmit="var a=dojo.byId('messageformelement');a.value=dijit.byId('id_message').getValue(false);">
+    <div style="width: 600px;">
+        <textarea name="message"  dojoType="dijit.Editor" plugins="['undo', 'redo', '|', 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|', 'insertOrderedList', 'insertUnorderedList', '|', 'indent', 'outdent', 'justifyCenter', 'justifyFull', 'justifyLeft', 'justifyRight']">
+            {{ object.message }}
+        </textarea>
+    </div>
+    <input id="messageformelement" type="hidden" name="message" value="" />
+    <input type="submit" value="Save changes" /> 
+</form>
+
+{% endifequal %}
+{% endblock main %}

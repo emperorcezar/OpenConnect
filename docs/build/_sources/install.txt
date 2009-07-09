@@ -1,0 +1,25 @@
+.. installation information
+
+**********************
+Installing OpenConnect
+**********************
+
+First you'll need Django. Generally, the best way to install Django is from thier `download <http://www.djangoproject.com/download/site>`_ site.
+Follow the instruction there.
+
+Next you will need a database system. Currently OpenConnect support MySql. Internally it uses the Django `__search <http://docs.djangoproject.com/en/dev/ref/models/querysets/#search>`_ functionallity, which is MySQL specific.
+
+All other libraries and self contained inside OpenConnect.
+
+Next, Open the example settings.py file, you will find it in openconnect/settings_example.py
+There are a few important sections. First is the database information::
+
+      DATABASE_ENGINE = 'mysql'
+      DATABASE_NAME = 'openconnect'
+      DATABASE_USER = 'openconnect'
+      DATABASE_PASSWORD = 'passwordgoeshere'
+      DATABASE_HOST = 'localhost'
+      DATABASE_PORT = ''
+      LOG_FILE = '/var/log/openconnect.log'
+
+This should be straight forward. Some things of note though. Make sure that whatever the user of your db is, that they can write to the log file. In the case of apache, it is typically www-data.

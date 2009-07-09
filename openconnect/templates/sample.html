@@ -1,0 +1,138 @@
+{% extends "nav.html" %}
+
+{% block main %}
+    <div id="title">
+        Homepage (Generic Content)
+        <a href="/accounts/logout/">Log out</a>
+    </div>
+
+    <div class="search">
+        <input name="search" type="text" maxlength="30" /><input name="Search these results" type="submit" value="Search these results" /><input name="Search new" type="submit" value="Search new" /><br />
+        <img src="{{ MEDIA_URL }}images/advSearch.gif" alt="advanced" width="91" height="13" /><br />
+    </div>
+
+    <div class="actions">
+        <br />
+        <br />
+        <select name="select">
+            <option disabled="disabled" selected="selected">
+                Actions
+            </option>
+
+            <option>
+                Delete
+            </option>
+        </select><br />
+        <a onclick="selectAll()">Select all</a><a onclick="selectNone()">Select none</a>
+    </div>
+
+    <div id="content">
+        <div class="pagingPref">
+            10 of 30&Acirc;&nbsp;&Acirc;&nbsp;&Acirc;&nbsp;&Acirc;&nbsp; <a href="#">Next 10 &raquo;</a>
+
+            <div class="actions">
+                <select>
+                    <option disabled="disabled" selected="selected">
+                        10 results per page
+                    </option>
+
+                    <option>
+                        20 results per page
+                    </option>
+                </select><br />
+            </div>
+        </div><br />
+
+        <table class="results" cellpadding="0" cellspacing="0">
+            <tr class="stripe">
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2004</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2005</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr class="stripe">
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2006</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2007</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr class="stripe">
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2008</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2009</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr class="stripe">
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2010</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td class="check"><input type="checkbox" id="check1" /></td>
+
+                <td><a href="#">Design Research Conference 2011</a></td>
+
+                <td class="detail">Detail</td>
+
+                <td class="detail">&nbsp;</td>
+            </tr>
+        </table>
+
+        <div class="pagingPref">
+            <a href="#"><br />
+            Next 10 &raquo;</a>
+        </div>
+    </div>
+
+    <div class="search">
+        <input name="search" type="text" maxlength="30" /> <input name="Search these results" type="submit" value="Search these results" /> <input name="Search new" type="submit" value="Search new" /><br />
+        <img src="{{ MEDIA_URL }}images/advSearch.gif" alt="advanced" width="91" height="13" /><br />
+    </div>
+{% endblock main %}

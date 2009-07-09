@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.Form");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dojox.validate");
+{% endblock %}
+
+{% block belowgradient %}
+  <h1>{% block formtitle %}Registration{% endblock %}</h1>
+  <div id="content">
+   <form dojoType="dijit.form.Form" method="POST" action="." id="emailform">
+     <script type="dojo/method" event="onSubmit">
+       if(this.validate()){
+           return true;
+       }else{
+           return false;
+       }
+  </script>    
+      <div id="registrationform">
+	{% if error %}
+	<div class="errormsg">{{ error }}</div>
+	{% endif %}
+	Please enter you email address:<br />
+	<input type="text" 
+	       dojoType="dijit.form.ValidationTextBox" 
+	       required="true"
+	       isValid="customIsValid" 
+	       invalidMessage="Email address is not valid" 
+	       regExpGen="dojox.regexp.emailAddress"
+	       name="email"><br />
+	If you have a dicountcode, please enter it:<br />
+	<input type="text" 
+	       dojoType="dijit.form.TextBox" 
+	       isValid="customIsValid" 
+	       name="discount_code">
+
+        <div class="row">
+          <span class="item submit"><button dojoType="dijit.form.Button" type="submit" name="submitButton" value="Submit">Submit</button></span>
+        </div>
+      </div>
+    </form>
+    <br />
+  </div>
+
+{% endblock belowgradient %}

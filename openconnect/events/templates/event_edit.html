@@ -1,0 +1,187 @@
+{% extends "event_add.html" %}
+{% block dojorequires %}
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Textarea");
+dojo.require("dijit.form.Button");
+dojo.require("dijit.Dialog");
+dojo.require("dijit.Editor");
+dojo.require("dijit.InlineEditBox");
+{% endblock %}
+
+{% block javascript %}
+var delete_id = false;
+
+function pricing_add(){
+    dojo.xhrPost({
+	url: '{% url events-pricing-add %}',
+	form: 'pricing-add',
+	load: pricing_added,
+	error: function (error) {
+            console.error ('Error: ', error);
+        },
+    })
+}
+
+function pricing_added(data){
+
+
+    var returned_data = dojo.fromJson(data);
+
+    if (returned_data.status != "success"){
+	return false;
+    }
+
+
+
+    dojo.byId('pricing-table-table').style.display = 'block';
+
+    var tr = document.createElement('tr');
+    tr.setAttribute('id', 'p'+returned_data.id);
+    
+    var td = document.createElement('td');
+        var text = document.createTextNode(returned_data.price);
+    td.appendChild(text);
+    tr.appendChild(td);
+
+    td = document.createElement('td');    
+    text = document.createTextNode(returned_data.discount_code);
+    td.appendChild(text);
+    tr.appendChild(td);
+
+    td = document.createElement('td');    
+    text = document.createTextNode(returned_data.tag_list);
+    td.appendChild(text);
+    tr.appendChild(td);
+
+    td = document.createElement('td');    
+    text = document.createTextNode(returned_data.start);
+    td.appendChild(text);
+    tr.appendChild(td);
+
+    td = document.createElement('td');    
+    text = document.createTextNode(returned_data.end);
+    td.appendChild(text);
+    tr.appendChild(td);
+
+
+    td = document.createElement('td');
+    
+    var delete_link = document.createElement('a');
+    delete_link.setAttribute('onclick', "delete_confirm('"+returned_data.id+"');");
+    delete_link.setAttribute('class', 'event');
+
+    delete_link.appendChild(document.createTextNode('Delete'));
+
+    td.appendChild(delete_link);
+
+    tr.appendChild(td);
+
+    dojo.byId('pricing-table').appendChild(tr);
+
+    tr.style.width = "100%";
+
+    dijit.byId('pricing-dialog').hide();
+
+    dijit.byId('pricing-add').reset();
+}
+
+function delete_confirm(id){
+    delete_id = id;
+    dijit.byId('delete-dialog').show();
+}
+
+function delete_pricing(id){
+    dijit.byId('delete-dialog').hide();
+
+    dojo.xhrGet({
+	url: '{% url events-pricing-delete %}?id='+id,
+	load: dojo.partial('pricing_deleted', id),
+	error: function (error) {
+            console.error ('Error: ', error);
+        },
+    })
+}
+
+function pricing_deleted(id, data){
+    var returned_data = dojo.fromJson(data);
+
+    if (returned_data.status != "success"){
+	alert(returned_data);
+	return false;
+    }
+    dojo.byId('pricing-table').removeChild(dojo.byId('p'+id));
+}
+
+{% endblock %}
+
+{% block formtitle %}Edit Event{% endblock %}
+{% block submitvalue %}Submit{% endblock %}
+
+{% block aftereventform %}
+<h1>Pricing</h1>
+<div class="sub_content"> 
+  <div dojoType="dijit.Dialog" id="pricing-dialog" title="Event Pricing" style="display:none;width:400px;">
+    <form name="pricing-add" method="post" id="pricing-add" dojoType="dijit.form.Form">
+      <input type="hidden" value="{{ id }}" name="event">
+      <p>Please note that when registering, the user will be given the lowest price based on discount code and/or the tag they match</p>
+      <label for="price">Amount</label><input type="text" 
+					      id="price" 
+					      dojoType="dijit.form.ValidationTextBox"
+					      regExp="\d+(\.\d{2})?"
+					      invalidMessage="Must be in the form of dollars and cents. E.g. 10.45"
+					      name="price">
+      <label for="price">Discount Code</label><input type="text" 
+						     id="discount_code" 
+						     dojoType="dijit.form.TextBox" 
+						     name="discount_code">
+      <label for="price">Tag List</label><input type="text" 
+						id="tag_list" 
+						dojoType="dijit.form.TextBox"
+						name="tag_list">
+      <label for="price">Start Date</label><input type="text" 
+						  id="start" 
+						  dojoType="dijit.form.DateTextBox"
+						  name="start">
+      <label for="price">End Date</label><input type="text" 
+						id="end" 
+						dojoType="dijit.form.DateTextBox" 
+						name="end">
+    </form><br />
+    <button style="float:right" dojoType="dijit.form.Button" onclick="dijit.byId('pricing-dialog').hide();">Cancel</button>
+    <button dojoType="dijit.form.Button" onclick="pricing_add">Done</button>
+  </div>
+  <div dojoType="dijit.Dialog" id="delete-dialog" title="Delete" style="display:none;">
+    <p>Delete this pricing?</p>
+    <button style="float:right" dojoType="dijit.form.Button" onclick="dijit.byId('delete-dialog').hide();">Cancel</button>
+    <button dojoType="dijit.form.Button" onclick="delete_pricing(delete_id);">Yes</button>
+  </div>
+
+  <button dojoType="dijit.form.Button" onclick="dijit.byId('pricing-dialog').show();">Add</button>
+  <table class="results" width="75%" id="pricing-table-table" {% if pricing %}{% else %}style="display:none;"{% endif %}>
+    <thead>
+      <tr>
+	<th>Price</th>
+	<th>Discount Code</th>
+	<th>Tag List</th>
+	<th>Start Date</th>
+	<th>End Date</th>
+	<th></th>
+      </tr>
+    </thead>
+    <tbody id="pricing-table">
+      {% for p in pricing %}
+      <tr id="p{{ p.id }}">
+	<td>{{ p.price }}</td>
+	<td>{{ p.discount_code }}</td>
+	<td>{{ p.tag_list }}</td>
+	<td>{{ p.start|date:"m/d/Y" }}</td>
+	<td>{{ p.end|date:"m/d/Y" }}</td>
+	<td><a onclick="delete_confirm('{{ p.id }}');" class="event">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

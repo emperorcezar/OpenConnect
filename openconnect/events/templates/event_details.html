@@ -1,0 +1,116 @@
+{% extends "events_subnav.html" %}
+
+{% block dojorequires %}
+dojo.require("dojo.fx");
+dojo.require("dijit.form.Button");
+
+{% endblock %}
+
+{% block javascript %}
+
+
+function button_toggle(data, ioArgs){
+    if(data != 'False'){
+	    button = dijit.byId('pending_button_'+data);
+
+	    if(button.label == ''){
+		current_value = button.containerNode.textContent;
+	    }else{
+		current_value = button.label;
+	    }
+
+	    if(current_value == "Complete"){
+		button.setLabel("Pending");
+	    }else{
+		button.setLabel("Complete");
+	    }
+	}
+}
+
+function pending_toggle(event, contact){
+    dojo.xhrPost({
+	    url: '{% url pending_toggle %}',
+		load: button_toggle,
+		error: function(data, ioArgs){console.dir(data);alert(data);},
+		content: {event:event, contact:contact}
+    });
+}
+
+var regwipe = "out";
+
+function wipeRegistrants(){
+    if(regwipe == "out"){
+	dojo.fx.wipeIn({
+	    node: "registrants",
+	    duration: 300
+	}).play();
+	regwipe = "in";
+	dojo.byId('regplusminus').src = '{{ MEDIA_URL }}images/minus_box.png';
+    }
+    else if(regwipe == "in"){
+	dojo.fx.wipeOut({
+	    node: "registrants",
+	    duration: 300
+	}).play();
+	regwipe = "out";
+	dojo.byId('regplusminus').src = '{{ MEDIA_URL }}images/plus_box.png';
+    }
+}
+
+{% endblock %}
+
+{% block subnavcontext %}
+<li><a href="{% url event-invite object.id %}">Invite Contacts</a></li>
+<li><a href="{% url event-emails object.id %}">Related Emails</a></li>
+{% endblock subnavcontext %}
+
+{% block main %}
+<h1>{{ object.title }}</h1>
+<div id="content">
+{{ object.description }}<br />
+<table class="results">
+  <tbody>
+    <tr>
+      <td>Start:</td>
+      <td>{{ object.start|date:"D F, j Y" }}</td>
+    </tr>
+    <tr>
+      <td>End:</td>
+      <td>{{ object.end|date:"D F, j Y" }}</td>
+    </tr>
+    <tr>
+      <td>Location:</td>
+      <td>{{ object.location }}</td>
+    </tr>
+    <tr>
+      <td>Maximum Attendies:</td>
+      <td>{{ object.allowed_attendies }}</td>
+    </tr>
+  </tbody>
+</table>
+    <h2 onclick="wipeRegistrants()" style="cursor: pointer;"><img align="bottom" src="{{ MEDIA_URL }}images/plus_box.png" id="regplusminus"> Registrants</h2>
+<div class="sub_content">
+ <table class="results" cellspacing="0" cellpadding="0" id="registrants" style="display:none;">
+   <thead>
+     <th>Registrant</th><th>Discount Code</th><th></th>
+   </thead>
+   <tbody>
+     {% for registrant in object.registrant_set.all %}
+     <tr class="linked {% cycle 'stripe' '' %}">
+       <td>
+	 <label class="registrant_pending_label">{{ registrant.contact.last_name }}, {{ registrant.contact.first_name }}</label>
+       </td>
+       <td>
+	 {{ registrant.discount_code }}
+       </td>
+       <td>
+	 <button dojoType="dijit.form.Button" onclick="pending_toggle({{ object.id }},{{ registrant.contact.id }});" id="pending_button_{{ registrant.contact.id }}">{% if registrant.pending %}Pending{% else %}Complete{% endif %}</button></td>
+       </td>
+     </tr>
+     {% endfor %}
+   </tbody>
+ </table>
+</div>
+</div>
+
+{% endblock main %}

@@ -1,0 +1,20 @@
+{% extends "events_subnav.html" %}
+
+{% block dojorequires %}
+dojo.require('dijit.form.FilteringSelect');
+{% endblock %}
+
+{% block main %}
+<h1>{{ object.title }}</h1>
+<div id="content">
+<table>
+  <tbody>
+    {{ form }}
+  </tbody>
+</table>
+Please select which saved search to send invites out to.<br/>
+
+
+</div>
+
+{% endblock main %}

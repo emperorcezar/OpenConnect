@@ -1,0 +1,27 @@
+.. OpenConnect documentation master file, created by sphinx-quickstart on Mon Feb 23 14:33:02 2009.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to OpenConnect's documentation!
+=======================================
+
+OpenConnect is a contact and event management system that is geared towards non-profit organizations. It uses modern technology such as Ajax and Python to help people track contacts, events, and emails related to thier marketing, donation, and volunteer corespondance.
+
+OpenConnect is different in that it is simple and easy to use. It's goal is to remove the difficulties that similar systems create by having too many features and too much user interface complicating the work flow; making it difficult to simply use the system.
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   features
+   install
+   screencasts
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

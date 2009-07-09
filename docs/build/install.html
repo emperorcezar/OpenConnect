@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing OpenConnect &mdash; OpenConnect v1.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="OpenConnect v1.1 documentation" href="index.html" />
+    <link rel="next" title="Screencasts" href="screencasts.html" />
+    <link rel="prev" title="Features" href="features.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="screencasts.html" title="Screencasts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="features.html" title="Features"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">OpenConnect v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  
+  <div class="section" id="installing-openconnect">
+<h1>Installing OpenConnect<a class="headerlink" href="#installing-openconnect" title="Permalink to this headline">¶</a></h1>
+<p>First you&#8217;ll need Django. Generally, the best way to install Django is from thier <a class="reference external" href="http://www.djangoproject.com/download/site">download</a> site.
+Follow the instruction there.</p>
+<p>Next you will need a database system. Currently OpenConnect support MySql. Internally it uses the Django <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/models/querysets/#search">__search</a> functionallity, which is MySQL specific.</p>
+<p>All other libraries and self contained inside OpenConnect.</p>
+<p>Next, Open the example settings.py file, you will find it in openconnect/settings_example.py
+There are a few important sections. First is the database information:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASE_ENGINE</span> <span class="o">=</span> <span class="s">&#39;mysql&#39;</span>
+<span class="n">DATABASE_NAME</span> <span class="o">=</span> <span class="s">&#39;openconnect&#39;</span>
+<span class="n">DATABASE_USER</span> <span class="o">=</span> <span class="s">&#39;openconnect&#39;</span>
+<span class="n">DATABASE_PASSWORD</span> <span class="o">=</span> <span class="s">&#39;passwordgoeshere&#39;</span>
+<span class="n">DATABASE_HOST</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">DATABASE_PORT</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">LOG_FILE</span> <span class="o">=</span> <span class="s">&#39;/var/log/openconnect.log&#39;</span>
+</pre></div>
+</div>
+<p>This should be straight forward. Some things of note though. Make sure that whatever the user of your db is, that they can write to the log file. In the case of apache, it is typically www-data.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="features.html" title="previous chapter">Features</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="screencasts.html" title="next chapter">Screencasts</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/install.txt">Show Source</a></li>
+            </ul>
+          <h3>Quick search</h3>
+            <form class="search" action="search.html" method="get">
+              <input type="text" name="q" size="18" /> <input type="submit" value="Go" />
+              <input type="hidden" name="check_keywords" value="yes" />
+              <input type="hidden" name="area" value="default" />
+            </form>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="screencasts.html" title="Screencasts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="features.html" title="Features"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">OpenConnect v1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Adam "Cezar" Jenkins.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.5.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "nav.html" %}
+
+{% block reportsnav %} currentTab{% endblock reportsnav %}
+
+{% block subnav %}
+<div id="subnav-block">
+    <ul id="subnav">
+        <li>
+            <a href="{% url reports-create %}">New report</a>
+        </li>
+        <li>
+            <a href="{% url reports-list %}">Saved reports</a>
+        </li>
+    </ul>
+</div>
+
+{% endblock subnav %}
+

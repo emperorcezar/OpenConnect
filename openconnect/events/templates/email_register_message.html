@@ -1,0 +1,35 @@
+<p>You have been registered for {{ event }}</p>
+<p>Below you will find the existing information that you were registered with. If it is incorrect please <a href="{{ incorrect_link }}">register</a> with the correct information.</p>
+<table width="50%">
+<tr>
+  <th align="left">First Name</th>
+  <td>{{ contact.first_name }}</td>
+</tr>
+<tr>
+  <th align="left">Last Name</th>
+  <td>{{ contact.last_name }}</td>
+</tr>
+<tr>
+  <th align="left">Phone</th>
+  <td>{{ contact.phone1 }}</td>
+</tr>
+<tr>
+  <th align="left" valign="top">Address</th>
+  <td>{{ contact.addr1_row1 }}<br>
+    {{ contact.addr1_row2 }}
+  </td>
+</tr>
+<tr>
+  <th align="left">City</th>
+  <td>{{ contact.addr1_city }}</td>
+</tr>
+<tr>
+  <th align="left">State</th>
+  <td>{{ contact.addr1_state }}</td>
+</tr>
+<tr>
+  <th align="left">Zip</th>
+  <td>{{ contact.addr1_zip }}</td>
+</tr>
+</table>
+

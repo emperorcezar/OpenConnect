@@ -1,0 +1,42 @@
+{% extends "contacts/subnav.html" %}
+
+{% block dojorequires %}
+dojo.require("dojox.form.MultiComboBox");
+dojo.require("custom.GetReadStore");
+{% endblock %}
+
+{% block main %}
+<div dojoType="custom.GetReadStore" jsId="tagstore"
+       url="/taglist.json"></div>
+<h1>Add Contact | <a href="{% url contacts-import %}">Import</a></h1>
+<div id="content">
+    <form method="POST" action="{% url contacts-add %}">
+        <div id="addcontactform">
+            {% for field in form %}
+                {% ifequal field.label "Row 1" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'Primary Address' 'Secondary Address' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Degree" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'First Degree' 'Second Degree' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Tag list" %}
+                <div class="row">
+                    <span class="item label"><br/></span>
+                </div>
+                {% endifequal %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <span class="item submit"><input type="submit" value="Add Contact" /></span>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}

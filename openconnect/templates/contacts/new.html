@@ -1,0 +1,40 @@
+{% extends "contacts/subnav.html" %}
+
+{% block main %}
+<h1>Success</h1>
+<div id="content">
+    {% if newcontacts %}
+        <h2>New Contacts</h2>
+        <p>The following contacts were added:</p>
+        <table class="results" cellpadding="0" cellspacing="0">
+            <tr><th>First Name</th><th>Last Name</th><th>Email</th></tr>
+            {% for c in newcontacts %}
+                <tr class="{% cycle 'stripe' '' %}"><td>{{c.first_name}}</td><td>{{c.last_name}}</td><td>{{c.email}}</td></tr>
+            {% endfor %}
+        </table>
+        <a href="{% url getcsv "newcontactscsv" %}">Download these contacts in a csv file</a>
+    {% endif %}
+    {% if existingcontacts %}
+        <h2>Existing Contacts</h2>
+        <p>The following contacts were not added because a contact with the same email address already exists:</p>
+        <table class="results" cellpadding="0" cellspacing="0">
+            <tr><th>First Name</th><th>Last Name</th><th>Email</th></tr>
+            {% for c in existingcontacts %}
+                <tr class="{% cycle 'stripe' '' %}"><td>{{c.first_name}}</td><td>{{c.last_name}}</td><td>{{c.email}}</td></tr>
+            {% endfor %}
+        </table>
+        <a href="{% url getcsv "existingcontactscsv" %}">Download these contacts in a csv file</a>
+    {% endif %}
+    {% if badcontacts %}
+        <h2>Errors</h2>
+        <p>The following contacts were not added for reasons explained below:</p>
+        <table class="results" cellpadding="0" cellspacing="0">
+            <tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Error</th></tr>
+            {% for c in badcontacts %}
+                <tr class="{% cycle 'stripe' '' %}"><td>{{c.first_name}}</td><td>{{c.last_name}}</td><td>{{c.email}}</td><td>{{c.notes}}</td></tr>
+            {% endfor %}
+        </table>
+        <a href="{% url getcsv "badcontactscsv" %}">Download these contacts in a csv file</a>
+    {% endif %}
+</div>
+{% endblock main %}

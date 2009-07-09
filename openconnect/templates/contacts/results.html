@@ -1,0 +1,176 @@
+{% extends "contacts/search.html" %}
+{% load comparison %}
+
+{% block title %}Search Results{% endblock title %}
+
+{% block javascript %}
+function check(contact){
+    dojo.xhrGet({
+	    url: '/contacts/' + contact + '/check/',
+		error: function(data, ioArgs){console.dir(data);alert(data);},
+    });
+}
+
+{% endblock javascript %}
+
+{% block basicbuttons %}
+                <span style="margin-left: 125px; width: 110px;" class="item input"><input type="submit" name="search" value="Refine search" /></span>
+                <span style="margin-left: 10px; width: 110px;" class="item input"><input type="submit" name="search" value="New search" /></span>
+{% endblock basicbuttons %}
+{% block advancedbuttons %}
+                <span style="margin-left: 125px; width: 110px;" class="item input"><input type="submit" name="search" value="Refine search" /></span>
+                <span style="margin-left: 10px; width: 110px;" class="item input"><input type="submit" name="search" value="New search" /></span>
+{% endblock advancedbuttons %}
+
+
+{% block results %}
+    <br/>
+    <div style="padding: 3px; width: 90%">
+        <div style="float: right; padding: 3px;">
+            <form style="display: inline;" name="nextactiontop" action="{% url contacts-searchaction %}?page={{ page }}" method="POST">
+                <input type="hidden" name="param" value=""/>
+                {% block nextaction %}
+                <label for="nextaction">
+                    Action:
+                </label>
+                <select id="nextaction" name="nextaction" onchange="doaction();">
+                    <option value="----------"> ---------- </option>
+                    <option value="savesearch">Save search results</option>
+                    <option value="sendemail">Email these contacts</option>
+                    <option value="selectcontacts">Use selected contacts</option>
+                    <option value="----------">Add tag...</option>
+                    <option value="newtag">&nbsp;&nbsp;New tag</option>
+                    {% for tag in unsharedtags %}
+                    <option value="add {{ tag }}">&nbsp;&nbsp;{{ tag }}</option>
+                    {% endfor %}
+                    <option value="----------">Remove tag...</option>
+                    {% for tag in sharedtags %}
+                    <option value="remove {{ tag }}">&nbsp;&nbsp;{{ tag }}</option>
+                    {% endfor %}
+                </select>
+                {% endblock nextaction %}
+            </form>
+            <SCRIPT language="JavaScript">
+            function doaction()
+            {
+                next = document.nextactiontop.nextaction.value;
+                if (next=="----------") {
+                    document.nextactiontop.nextaction.value="----------";
+                    return;
+                } else if (next=="newtag") {
+                    newtag = prompt("Enter the new tag name", "");
+                    if (newtag!=null && newtag!="") { 
+                        document.nextactiontop.param.value = newtag;
+                        document.nextactiontop.submit();
+                    } else {
+                        document.nextactiontop.nextaction.value="----------";
+                        return;
+                    }
+                } else if (next.substring(0,3)=="add") {
+                    document.nextactiontop.param.value=next.substring(4);
+                    document.nextactiontop.submit();
+                } else if (next.substring(0,6)=="remove") {
+                    document.nextactiontop.param.value=next.substring(7);
+                    document.nextactiontop.submit();
+                } else if (next=="savesearch") {
+                    searchname = prompt("Enter a name for these search results", "");
+                    if (searchname!=null && searchname!="") {
+                        document.nextactiontop.param.value=searchname;
+                        document.nextactiontop.submit();
+                    } else {
+                        document.nextactiontop.nextaction.value="----------";
+                    }
+                } else if (next=="sendemail") {
+                    document.nextactiontop.param.value="sendemail";
+                    document.nextactiontop.submit();
+                } else if (next=="selectcontacts") {
+                    document.nextactiontop.param.value="selectcontacts";
+                    document.nextactiontop.submit();
+                }
+
+                //document.nextactiontop.submit();
+
+            }
+            </SCRIPT>
+        </div>
+      <strong>{{ paginator.count }} results</strong><br />
+        {% if is_paginated %}
+            {% if has_previous %}
+                <a href="{% url contacts-searchresults %}?page={{ previous }}">&lt;&lt; Prev</a>
+            {% endif %}
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+            {% if has_next %}
+                <a href="{% url contacts-searchresults %}?page={{ next }}">Next &gt;&gt;</a>
+            {% endif %}
+            <label style="padding-left: 30px;" for="pagingprefs">
+                Results per page:
+            </label>
+            <form id="pagingformyyyzzz1" style="display: inline;" name="pagingformyyyzzz1" action="{% url contacts-searchresults %}?page={{ page }}" method="POST">
+                <input type="hidden" name="search" value="Refine search"/>
+                <select id="pagingprefs" name="pagingprefs" onchange="submitform1();">
+                    <option {% ifequal results_per_page 10 %}selected{% endifequal %}>10</option>
+                    <option {% ifequal results_per_page 20 %}selected{% endifequal %}>20</option>
+                    <option {% ifequal results_per_page 30 %}selected{% endifequal %}>30</option>
+                    <option {% ifequal results_per_page 40 %}selected{% endifequal %}>40</option>
+                    <option {% ifequal results_per_page 50 %}selected{% endifequal %}>50</option>
+                </select>
+            </form>
+            <SCRIPT language="JavaScript">
+            function submitform1()
+            { 
+                dojo.byId('pagingformyyyzzz1').submit();
+            }
+            </SCRIPT>
+        {% endif %}
+    </div><br>
+    <table class="results" cellpadding="0" cellspacing="0">
+        <tr>
+	  <th> </th>
+	  <th><a href="{% url contacts-searchresults %}?page={{ page }}&sortby=first_name">First Name</a></th>
+          <th><a href="{% url contacts-searchresults %}?page={{ page }}&sortby=last_name">Last Name</a></th>
+          <th><a href="{% url contacts-searchresults %}?page={{ page }}&sortby=email">Email</a></th>
+          <th><a href="{% url contacts-searchresults %}?page={{ page }}&sortby=tag_list">Tags</a></th>
+	</tr>
+        {% for c in object_list %}
+            <tr class="{% cycle 'stripe' '' %}">
+	      <td><input type="checkbox" {% ifin c.id checked_contacts %}checked{% endifin %} onclick="check({{ c.id }});"></td>
+              <td><a href="{% url contacts-details c.id %}">{{ c.first_name }}</a></td>
+              <td><a href="{% url contacts-details c.id %}">{{ c.last_name }}</a></td>
+              <td><a href="{% url contacts-details c.id %}">{{ c.email }}</a></td>
+              <td><a href="{% url contacts-details c.id %}">{{ c.tag_list }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br/>
+    <div style="padding: 3px; width: 90%">
+      <strong>{{ paginator.count }} results</strong><br />
+        {% if is_paginated %}
+            {% if has_previous %}
+                <a href="{% url contacts-searchresults %}?page={{ previous }}">&lt;&lt; Prev</a>
+            {% endif %}
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}
+            {% if has_next %}
+                <a href="{% url contacts-searchresults %}?page={{ next }}">Next &gt;&gt;</a>
+            {% endif %}
+            <label style="padding-left: 30px;" for="pagingprefs">
+                Results per page:
+            </label>
+            <form style="display: inline;" name="pagingformyyyzzz2" id="pagingformyyyzzz2" action="{% url contacts-searchresults %}?page={{ page }}" method="POST">
+                <input type="hidden" name="search" value="Refine search"/>
+                <select id="pagingprefs" name="pagingprefs" onchange="submitform2();">
+                    <option {% ifequal results_per_page 10 %}selected{% endifequal %}>10</option>
+                    <option {% ifequal results_per_page 20 %}selected{% endifequal %}>20</option>
+                    <option {% ifequal results_per_page 30 %}selected{% endifequal %}>30</option>
+                    <option {% ifequal results_per_page 40 %}selected{% endifequal %}>40</option>
+                    <option {% ifequal results_per_page 50 %}selected{% endifequal %}>50</option>
+                </select>
+            </form>
+            <SCRIPT language="JavaScript">
+            function submitform2()
+            { 
+                dojo.byId('paginformyyyzzz2').submit();
+            }
+            </SCRIPT>
+        {% endif %}
+    </div>
+{% endblock results %}

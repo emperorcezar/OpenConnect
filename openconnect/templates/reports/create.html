@@ -1,0 +1,108 @@
+{% extends "reports/subnav.html" %}
+
+{% block main %}
+<h1>New report</h1>
+<div id="content">
+    <form method="POST" action="{% url reports-create %}">
+        <div id="createreportform">
+            {% for field in form %}
+                {% ifequal field.label "First Name" %}
+                <br/>
+                <h3>Contacts to include</h3>
+                <div id="advancedsearch">
+                    <input type="hidden" name="searchtype" value="advanced" />
+                    <div id="query1" class="row">
+                        <span class="item input">
+                            <select name="attribute">
+                                {% for attr in contactattrs %}
+                                <option value="{{ attr.0 }}">{{ attr.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                        <span class="item input">
+                            <select name="condition">
+                                <option>contains</option>
+                                <option>doesn't contain</option>
+                                <option>is</option>
+                                <option>is empty</option>
+                            </select>
+                        </span>
+                        <span class="item input">
+                            <input type="text" name="query" />
+                        </span>
+                        <span id="plusbuttoncontainer" class="item input">
+                            &nbsp;<input id="plusbutton" type="button" value="+"/>
+                        </span>
+                    </div>
+                    <div id="advbuttons">
+                    </div>
+                </div>
+                <br/>
+                <h3>Information to include</h3>
+
+                {% endifequal %}
+                {% ifequal field.label "Row 1" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'Primary Address' 'Secondary Address' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Degree" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'First Degree' 'Second Degree' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Tags" %}
+                <div class="row">
+                    <span class="item label"><br/></span>
+                </div>
+                {% endifequal %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <br/><br/>
+            <div class="row">
+                <span class="item submit"><input type="submit" value="Create Report" /></span>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="advtemplates" style="display: none;">
+    <div id="querytmpl" class="row">
+        <span class="item input">
+            <select name="attribute">
+                {% for key, value in contactattrs %}
+                <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+        </span>
+        <span class="item input">
+            <select name="condition">
+                <option selected>contains</option>
+                <option>doesn't contain</option>
+                <option>is</option>
+                <option>is empty</option>
+            </select>
+        </span>
+        <span class="item input">
+            <input type="text" name="query" />
+        </span>
+        <!-- make sure a plus button gets inserted here -->
+    </div>
+    <div id="conditiontmpl" class="row">
+        <span class="item input">
+            <select name="operator">
+                <option selected>and</option>
+                <option>or</option>
+            </select>
+        </span>
+    </div>
+    <span id="plusbuttoncontainertmpl" class="item input">  <!-- remove this id when placing -->
+        &nbsp;<input id="plusbuttontmpl" type="button" value="+"/>
+    </span>
+    <span id="minusbuttoncontainertmpl">    <!-- remove this id when placing -->
+        &nbsp;<input onclick="removeAdvanced(this)" type="button" value="&mdash;"/>
+    </span>
+</div>
+{% endblock main %}

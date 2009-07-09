@@ -1,0 +1,25 @@
+syntax: glob
+*.pyc
+*.orig
+*.swp
+*.swo
+*.pyo
+*.cache
+*.db
+*~
+manage.py
+openconnect/settings.py
+static-files/files/*
+django-settings/*
+django/*
+django
+media/essays/*
+media/portfolios/*
+media/resumes/*
+backups/*
+.svn/*
+openconnect/resources/*
+openconnect/static/attachments/*
+deploy.sh
+apache/*
+dist/*

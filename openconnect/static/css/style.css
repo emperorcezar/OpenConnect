@@ -1,0 +1,649 @@
+@charset "UTF-8";
+
+body {
+	margin:30px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11pt;
+	color: #333333;
+
+}
+
+h1 {
+    font-size: 18pt;
+    padding-bottom: 5px;
+    font-weight: normal;
+    margin: 0px;
+}
+
+#head {
+	float:left;
+	clear:both;
+	width:100%;
+}
+
+#head .headerNAV {
+	padding-left: 12px;
+	padding-top: 12px;
+	position: relative;
+	padding-bottom: 6px;
+	padding-right: 6px;
+	float: right;
+}
+
+#head .headerNAV a {
+	color: #669900;
+	text-decoration: none;
+}
+#head .tabTitle {
+	padding-bottom:0px;
+	float: left;
+} 
+#gradient {
+	background-image: url(/static/images/gradient.gif);
+	height: 5px;
+	width: 100%;
+	text-decoration: none;
+	background-color: #D7EAC1;
+	background-repeat: no-repeat;
+	float: right;
+}
+
+.IDlogo {
+	float: right;
+	clear: both;
+	position: relative;
+	padding-right: 6px;
+}
+
+#title {
+	font-size: 22px;
+	color: #000000;
+	padding-left: 20px;
+	padding-top: 12px;
+}
+
+.errormsg {
+    width: 500px;
+    border: 2px dotted #ff0000;
+    background-color: #ffffcc;
+    margin-top: 20px;
+    padding: 5px;
+    color: red;
+}
+
+.errormsg p {
+    padding-left: 20px;
+}
+
+.blackout {
+    opacity: .4;
+    filter: alpha(opacity=40);
+    z-index:10;
+    background-color:#ffffff;
+}
+
+
+
+.preview {
+    padding: 5px;
+    display: block;
+    left: 200px;
+    top: 200px;
+    position: absolute;
+    z-index: 100;
+    border: 4px solid #669900;
+    background-color: #ffffff;
+}
+
+/* tabs */
+
+#tabContainer {
+    width:100%;
+	background-color: #EFEFEF;
+	border-bottom: thin solid #669900;
+	border-top: 3px	solid #ffffff;
+    padding: 8px 0px;
+}
+
+#tabContainer .tab {
+	display: inline;
+    width:5em;
+	text-align:center;
+	padding: 8px 14px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	border-left: 1px dotted #669900;
+}
+
+#tabContainer .firstTab {
+	border-left-style: none;
+}
+ 
+#tabContainer .currentTab {
+}
+
+#tabContainer a, #tabConta   {
+	text-decoration:none;
+	color:#666666;
+}
+ 
+#tabContainer .currentTab a {
+	color:#669900;
+	text-decoration: none;
+	font-weight: normal;
+}
+ 
+.tabContent {
+	float:left;
+	width:100%;
+	clear:both;
+	margin-top:20px;
+}
+
+.logoutlink {
+    float: right;
+    width: 400px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+#subnav {
+    margin: 0px;
+    padding: 0px;
+}
+
+#subnav li {
+    display:inline;
+    padding: 0px;
+    margin: 0px;
+}
+
+#subnav a {
+    margin: 0px 30px 0px 0px;
+	text-decoration: none;
+	color: #666666;
+    border-bottom: 1px dotted #666666;
+}
+
+a.currentsubnav {
+	color: #669900 !important;
+    border-bottom-width: 0px !important;
+}
+
+/* Subtab styles */
+
+#subtabContainer {
+	float:left;
+	width:100%;
+	padding-left: 7px;
+	border-bottom-style: none;
+	padding-bottom: 12px;
+}
+
+#content {
+	border-top: 4px solid #669900;
+	padding: 12px 0px 12px 0px;
+	margin-bottom: 15px;
+}
+
+#contentWithZeitgeist {
+	border-top: 4px solid #669900;
+	padding: 12px 0px 12px 0px;
+	margin-bottom: 15px;
+    margin-right: 290px;
+}
+
+.prettybox {
+    margin-top: 10px;
+	border-top: 4px solid #669900;
+	background-color:#efefef;
+    padding: 5px 10px;
+    min-height: 100px;
+    width: 500px;
+}
+
+#zeitgeist {
+    float: right;
+    width: 250px;
+	border-top: 4px solid #669900;
+	background-color:#efefef;
+    padding: 5px 10px;
+    min-height: 300px;
+}
+
+.zeitem {
+    
+}
+
+.zeitem .title {
+    color: #669900;
+    font-weight: bold;
+}
+
+.zeitem p {
+    margin: 3px 0px 3px 10px;
+}
+
+#subtabContainer .tab {
+	float:left;
+	margin-bottom:-1px;
+	text-align:center;
+	white-space:nowrap;
+	margin-top: 0px;
+	margin-right: 4px;
+	margin-left: 4px;
+	padding: 10px;
+ } 
+ 
+#subtabContainer .currentTab {
+	padding:10px;
+	float:left;
+	margin-bottom:-1px;
+	text-align:center;
+	white-space:nowrap;
+	margin-top: 0px;
+	margin-right: 4px;
+	margin-left: 4px;
+ }
+ 
+#subtabContainer .currentTab a {
+	text-decoration:none;
+	color:#669900;
+ }
+#head #subtabContainer .tab a {
+	color: #666666;
+	text-decoration: none;
+}
+/* Results Header */
+.search {
+	float:left;
+	padding-bottom: 12px;
+	padding-left: 17px;
+	vertical-align: top;
+	padding-top: 12px;
+}
+.actions {
+	float: right;
+	margin-top: -8px;
+	width: 165px;
+}
+.actions a {
+	padding-right: 14px;
+	color: #0000FF;
+	text-decoration: underline;
+}
+#content .pagingPref a {
+	color: #669900;
+}
+#contentWithZeitgeist .pagingPref a {
+	color: #669900;
+}
+.actions select {
+	margin-bottom: 6px;
+}
+
+
+table.form th {
+    vertical-align:top;
+    padding-right: 8px;
+}
+
+table.form td, table.form th {
+    padding-top: 5px;
+}
+
+/*table*/
+table.results, table.sentmail {
+    clear: left;
+    width: auto;
+    min-width: 800px;
+    margin-top: 12px;
+}
+
+th {
+    text-align: left;
+    padding-top: 2px;
+}
+
+table.results th {
+    padding-left: 2px;
+    font-weight: bold;
+}
+
+td {
+    padding-top: 2px;
+    padding-right: 6px;
+}
+
+table.results a, table.sentmail a {
+	color: #000000;
+    text-decoration: none;
+}
+
+table.results td, table.sentmail td {
+	padding:5px 7px;
+	vertical-align:top;
+}
+
+table.results td.check {
+	width:auto;
+}
+
+tr.stripe {
+    background-color: #efefef;
+}
+
+table.tags td {
+	padding:2px;
+	width:5em;
+}
+
+table.tags tr td:first-child {
+	width:10em;
+}
+
+table.tags tr.stripe td {
+	background-color:#efefef;
+}
+
+.emaillist {
+    width: 600px;
+}
+
+.emaillist td {
+    padding: 5px;
+}
+
+
+
+/*inputs*/
+
+input[type=text], input[type=password] {
+    width: 99%;
+}
+
+#advancedsearch input[type=text], input[type=password] {
+    width: auto;
+}
+
+
+input[type=submit], input[type=button] {
+    border:1px solid #CCCCCC;
+    cursor: pointer;
+    background-color:#efefef;
+    background-image:url(/static/images/grad.jpg) /* Using the background gradient with the green stripe at the top */;
+    padding-top: 0px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    background-repeat: repeat-x;
+    font-size: 13px;
+    background-position: -2px;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+    border-color:#366dba;
+    color:#366dba;
+    background:#f1f6fc url("images/buttonHover.png") repeat-x bottom;
+}
+
+a.event {
+    text-decoration: none;
+    color: #3BB022 !important;
+    border-bottom: 1px dotted #666666;
+    cursor: pointer;
+}
+
+/* forms */
+/* basic form stuff */
+
+div.row
+{
+    clear: left;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+div.row .item
+{
+    float: left;
+    min-width: 10px;
+}
+
+div.row .rightitem
+{
+    float: right;
+    min-width: 10px;
+}
+ 
+div.row .label
+{
+    float: left;
+    min-width: 10px;
+}
+ 
+div.row .input
+{
+    float: left;
+    width: 200px;
+    text-align: left;
+}
+
+/* set form specific stuff, like label width which varies from form to form */
+
+#loginform {
+    width: 300px;
+    margin-top: 20px;
+}
+
+#loginform .label {
+    width: 100px;
+}
+
+#loginform .input {
+    width: 200px;
+}
+
+#loginform .submit {
+    padding-left: 100px;
+}
+
+#homepageform {
+    width: 300px;    
+}
+
+#homepageform .label {
+    width: 100px;
+}
+
+#homepageform .input {
+    width: 200px;
+}
+
+#homepageform .submit {
+    padding-left: 100px;
+}
+
+#addcontactform {
+    width: 500px;
+}
+
+#addcontactform .label {
+    width: 200px;
+}
+
+#addcontactform .input {
+    width: 300px;
+}
+
+#addcontactform .submit {
+    padding-left: 200px;
+}
+
+#addcontactform select {
+    width: 99%;
+}
+
+#importcontactform {
+   width: 300px;
+}
+
+#importcontactform .label {
+   width: 75px;
+}
+
+#importcontactform .input {
+   width: 200px;
+}
+
+#importcontactform .submit {
+   padding-left: 75px;
+}
+
+#basicsearch {
+    width: 400px;
+}
+
+#basicsearch .label {
+    width: 125px;
+}
+
+#basicsearch .input {
+    width: 275px;
+}
+
+#basicsearch .submit {
+    padding-left: 125px;
+}
+
+#plusbuttoncontainer {
+    width: 50px;
+}
+
+#renametagform {
+    width: 300px;
+}
+
+#renametagform .label {
+    width: 100px;
+}
+
+#renametagform .input {
+    width: 200px;
+}
+
+#renametagform .submit {
+    padding-left: 100px;
+}
+
+#createreportform {
+    width: 700px;
+}
+
+#createreportform >.row> .label {
+    width: 200px;
+}
+
+#createreportform >.row> .input {
+    width: 500px;
+}
+
+#createreportform >.row> .submit {
+    padding-left: 100px;
+}
+
+#createreportform select {
+    width: 99%;
+}
+
+#createreportform input[type=text] {
+    width: 200px;
+}
+
+#createreportform #id_page_size {
+    width: 100px;
+}
+
+#createemailform {
+    width: 800px;
+}
+
+#createemailform .label {
+    width: 100px;
+}
+
+#createemailform .input {
+    width: 700px;
+}
+
+#createemailform .input input[type=text] {
+    width: 57%;
+}
+
+/*Django Errors*/
+ul.errorlist {
+    list-style: none;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+    color:red;
+}
+
+ul.errorlist li {
+    padding: 0px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
+}
+
+label.registrant_pending_label {
+    width: 200px;
+    padding-right: 20px;
+    display: block;
+    float: left;
+}
+
+.description-snippet {
+    color: #777;
+}
+
+.linked {
+    cursor: pointer;
+}
+
+.sub_content {
+    margin-top: 10px;
+    border-top: 4px solid #669900;
+    padding-top: 5px
+    min-height: 100px;
+    width: 500px;
+}
+
+#pricing-add label {
+    font-weight:bold;
+    margin-top:3px;
+    display:block;
+}
+
+.dijitTextBox {
+    width: 300px !important;
+}
+
+.dijitTextArea > div {
+    min-height:100px !important;
+
+}
+
+.dijitTextArea {
+    max-width: 295px !important;
+}
+
+.dijitShort {
+    width: 100px !important;
+}
+
+#search_table td{
+    padding:5px;
+}
+
+#search_box th {
+    padding:5px;
+    font-weight: bold !important;
+}

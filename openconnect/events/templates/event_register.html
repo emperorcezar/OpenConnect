@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block dojorequires %}
+dojo.require("dijit.form.DateTextBox");
+dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.FilteringSelect");
+dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Textarea");
+{% endblock %}
+
+{% block head %}{% endblock head %}
+
+{% block belowgradient %}
+  <h1>{% block formtitle %}Registration{% endblock %}</h1>
+  <div id="content">
+    {% if not token %} 
+    <p><a href="{% url event-email-register event.slug %}">Register using existing information</a></p>
+    {% endif %}
+   <form method="POST" action=".">
+      <div id="registrationform">
+	<table class="form" valign="top">
+          {{ form.as_table }}
+	</table>
+        <div class="row">
+          <span class="item submit"><input type="submit" value="{% block submitvalue %}register{% endblock %}" /></span>
+        </div>
+      </div>
+    </form>
+    <br />
+  </div>
+
+
+{% endblock belowgradient %}

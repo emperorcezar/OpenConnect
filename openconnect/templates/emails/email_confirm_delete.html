@@ -1,0 +1,29 @@
+{% extends "emails/subnav.html" %}
+
+{% block main %}
+<h1>Delete {{ object.subject }}</h1>
+<div id="content">
+    <div id="confirmdeleteform">
+        <p>Are you sure you want to delete the {{ object.status }} "{{ object.subject }}"?</p>
+        {% ifequal object.status "draft" %}
+        <form style="display: inline;" method="POST" action="{% url emails-delete-draft object.id %}">
+	{% endifequal %}
+        {% ifequal object.status "template" %}
+        <form style="display: inline;" method="POST" action="{% url emails-delete-template object.id %}">
+	{% endifequal %}
+            <input type="submit" name="submit" value="Yes, delete the {{ object.status }}" />
+        </form>
+        {% ifequal object.status "draft" %}
+        <form style="display: inline;" method="GET" action="{% url emails-listdraft %}">
+        {% endifequal %}
+        {% ifequal object.status "template" %}
+        <form style="display: inline;" method="GET" action="{% url emails-listtemplate %}">
+        {% endifequal %}
+        {% ifequal object.status "sent mail" %}
+        <form style="display: inline;" method="GET" action="{% url emails-listsent %}">
+        {% endifequal %} 
+            <input type="submit" name="submit" value="No, go back"/>
+        </form>
+        </div>
+</div>
+{% endblock main %}

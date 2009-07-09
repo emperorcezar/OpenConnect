@@ -1,0 +1,25 @@
+{% extends "nav.html" %}
+
+{% block contactsnav %} currentTab{% endblock contactsnav %}
+
+{% block subnav %}
+<div id="subnav-block">
+    <ul id="subnav">
+        <li>
+            <a href="{% url contacts-search %}">Search</a>
+        </li>
+
+        <li>
+            <a href="{% url contacts-add %}">Add Contacts</a>
+        </li>
+
+        <li>
+            <a href="{% url mytags-manage %}">Manage Tags</a>
+        </li>
+	{% block extranav %}
+	{% endblock extranav %}
+    </ul>
+</div>
+
+{% endblock subnav %}
+

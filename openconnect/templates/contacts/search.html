@@ -1,0 +1,34 @@
+{% extends "contacts/subnav.html" %}
+{% load openconnecttags %}
+
+{% block main %}
+<h1>{% block title %}Contact search{% endblock title %}</h1>
+<div id="content">
+    <div id="basicsearch" style="">
+        <form method="POST" action="{% block basicurl %}{% url contacts-searchresults %}{% endblock basicurl %}">
+            <input type="hidden" name="searchtype" value="basic" />
+            {% for field in bform %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+	        {% block defaultsubmit %}
+		{% endblock defaultsubmit %}
+                {% block basicbuttons %}
+                    <span class="item submit"><input type="submit" name="search" value="Search" /></span>
+                {% endblock basicbuttons %}
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <span style="margin-left: 125px;" class="item input"><a href="{% url advanced-search %}">Advanced search</a></span>
+    </div>
+
+    {% block results %}
+    {% endblock results %}
+
+</div>
+{% endblock main %}

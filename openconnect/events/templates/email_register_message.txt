@@ -1,0 +1,14 @@
+You have been registered for {{ event }}
+
+Below you will find the existing information that you were registered with. If it is incorrect please go to {{ incorrect_link }} to register with the correct information.
+
+First Name: {{ contact.first_name }}
+Last Name: {{ contact.last_name }}
+Phone: {{ contact.phone1 }}
+Address:
+{{ contact.addr1_row1 }}
+{{ contact.addr1_row2 }}
+City: {{ contact.addr1_city }}
+State: {{ contact.addr1_state }}
+Zip: {{ contact.addr1_zip }}
+

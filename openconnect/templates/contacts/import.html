@@ -1,0 +1,20 @@
+{% extends "contacts/subnav.html" %}
+
+{% block main %}
+<h1><a href="{% url contacts-add %}">Add Contact</a> | Import</h1>
+<div id="content">
+    <form enctype="multipart/form-data" method="POST" action="{% url contacts-import %}">
+        <div id="importcontactform">
+            {% for field in form %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <span class="item submit"><input type="submit" value="Import Contacts" /></span>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}

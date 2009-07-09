@@ -1,0 +1,7 @@
+.. screencasts
+
+*****************
+Screencasts
+*****************
+
+Our screencasts cover the areas of adding and editing contacts, searching, emailing, and events. You can find them at `Our site <http://example.com>`_

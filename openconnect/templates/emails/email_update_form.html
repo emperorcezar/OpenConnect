@@ -1,0 +1,47 @@
+{% extends "emails/subnav.html" %}
+{% block dojorequires %}
+        dojo.require("dijit.Editor");
+{% endblock %}
+{% block beforeeverything %}
+<div id="blackout" class="">
+{% endblock beforeeverything %}
+{% block aftereverything %}
+</div>
+{% endblock aftereverything %}
+
+{% block main %}
+<h1>Edit {{ email.status|capfirst }}</h1>
+<div id="content">
+    <form name="emailform" method="POST" action="{% url emails-update %}">
+        <div id="createemailform">
+            <div class="row">
+                <span class="item submit">
+                    <input type="submit" name="Submit" value="Save as draft" onclick="copyEditorValue();"/>
+                    <input type="submit" name="Submit" value="Save as template" onclick="copyEditorValue();"/>
+                    <input type="button" name="Submit" value="Send" onclick="copyEditorValue();showPreview();" />
+                </span>
+           </div>
+            {% for field in form %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <input id="messageformelement" type="hidden" name="message" value="" />
+            <br/><br/>
+            <div class="row">
+                <span class="item submit">
+                    <input type="submit" name="Submit" value="Save as draft" onclick="copyEditorValue();" />
+                    <input type="submit" name="Submit" value="Save as template" onclick="copyEditorValue();" />
+                    <input type="button" name="Submit" value="Send" onclick="copyEditorValue();showPreview();" />
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="hideyhole" style="display: none;">
+    <div id="preview" class="preview">
+        <p>this is a preview</p>
+    </div>
+</div>
+{% endblock main %}

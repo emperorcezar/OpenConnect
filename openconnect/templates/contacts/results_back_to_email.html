@@ -1,0 +1,13 @@
+{% extends "contacts/results.html" %}
+
+{% block defaultsubmit %}
+<input type="submit" name="search" value="New search" style="display:none;" />
+{% endblock defaultsubmit %}
+
+{% block basicurl %}{% url contacts-emailrecipients %}{% endblock basicurl %}
+
+{% block advurl %}{% url contacts-emailrecipients %}{% endblock advurl %}
+
+{% block nextaction %}
+    <input type="button" name="Submit" value="Send email to these contacts" onclick="window.location='{% url emails-addrecipients %}'" />
+{% endblock nextaction %}

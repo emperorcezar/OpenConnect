@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>{{ TITLE }}</title>
+    <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}javascript/dojo-release-1.2.3/dijit/themes/tundra/tundra.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}javascript/dojo-release-1.2.3/dojo/resources/dojo.css" rel="stylesheet" type="text/css" />
+    <link href="{{ MEDIA_URL }}css/layout.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ MEDIA_URL }}javascript/dojo-release-1.2.3/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}javascript/custom.js"></script>
+    <script type="text/javascript">
+     function init(){
+        //document.designMode = 'On';
+        parentPageDomain = document.location.href.split('#')[1];
+        if (parentPageDomain) {
+           document.domain = parentPageDomain;
+        }
+     }
+     window.onload = init;
+    </script> 
+    <script type="text/javascript">
+    dojo.require("dojo.parser");
+
+	{% block dojorequires %}
+	{% endblock %}
+
+	{% block javascript %}
+	{% endblock javascript %}
+	
+    </script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}javascript/connectid.js"></script>
+</head>
+
+<body onload="main();dojo.byId('loading').style.zIndex = '-1'" class="tundra">
+    <div id="loading" style="z-index:2;position:absolute;left:0px;right:0px;height:100%;width:100%;background-color:white;padding:40px;">loading...</div>
+    <div id="container" style="background-color:white">
+    {% block beforeeverything %}{% endblock beforeeverything %}
+    {% block head %}
+    <div id="head">
+        <!-- <div class="IDlogo"><img src="{{ MEDIA_URL }}images/IDlogo.gif" alt="iit" width="149" height="19" /></div>-->
+
+        <div class="tabTitle">
+            <a href="/"><img style="border-style: none" src="{{ MEDIA_URL }}images/logo_2.gif" alt="logo" width="93" height="28" /></a>
+        </div>
+
+        <div class="headerNAV">
+            <a href="#">faq</a>
+        </div>
+
+        <div class="headerNAV">
+            <a href="#">help</a>
+        </div>
+
+        <div id="gradient"></div>
+    </div>
+    {% endblock head %}
+    <div id="main" style="clear: both; min-height: 300px; z-index: 1; margin-top:20px;">
+      
+      {% block belowgradient %}
+
+      {% endblock belowgradient %}
+      {% block main %}
+      {% endblock main %}
+    </div>
+
+    <div class="dottedline footer"></div>
+    {% block aftereverything %}{% endblock aftereverything %}
+  </div>
+
+</body>
+</html>

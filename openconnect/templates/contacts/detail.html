@@ -1,0 +1,66 @@
+{% extends "contacts/subnav.html" %}
+
+{% block extranav %}
+{% if contact.registrant_set.all %}<a href="{% url registered-events contact.id %}">Registered Events</a>{% endif %}
+{% endblock extranav %}
+
+{% block main %}
+<h1>Details of {{ contact.first_name }} {{ contact.last_name }}</h1>
+<div id="content">
+    <div id="contactdetails">
+        <table>
+            <tr>
+                <td>
+                    <form action="{% url contacts-edit contact.id %}" method="GET">
+                        <input type="submit" value="Edit contact"/>
+                    </form>
+                </td>
+            </tr>
+        {% for field, value in cdata %}
+	    {% if value %}
+            <tr>
+                {% ifequal field "Row 1" %}
+                <td><br/><strong>{% cycle 'Primary Address' 'Secondary Address' %}</strong></td><td></td></tr><tr>
+                {% endifequal %}
+                {% ifequal field "Degree" %}
+                <td><br/><strong>{% cycle 'First Degree' 'Second Degree' %}</strong></td><td></td></tr><tr>
+                {% endifequal %}
+                {% ifequal field "tag list" %}
+                <td><br/></td><td></td></tr><tr>
+                {% endifequal %}
+                <td>{{ field|capfirst }}:</td>
+		{% ifequal field "do not email" %}
+		{% ifequal value 1 %}
+		<td>True</td>
+		{% else %}
+		<td>False</td>
+		{% endifequal %}
+		{% else %}
+                <td>{{ value }}</td>
+		{% endifequal %}
+            </tr>
+	    {% endif %}
+        {% endfor %}
+            <tr>
+                <td>
+                    <form action="{% url contacts-edit contact.id %}" method="GET">
+                        <input type="submit" value="Edit contact"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div class="prettybox">
+            <div class="zeitem">
+                <div class="title">History</div>
+                <div class="dottedline"></div>
+                <table>
+                    <tr><td>Date</td><td>User</td><td>Action</td>
+                    {% for msg in chistory %}
+                        <tr><td>{{ msg.event_date }}</td><td>{{ msg.user.first_name }} {{msg.user.last_name}}</td><td>{{ msg.message }}</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

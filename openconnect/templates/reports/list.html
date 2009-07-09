@@ -1,0 +1,14 @@
+{% extends "reports/subnav.html" %}
+
+{% block main %}
+<h1>Saved reports</h1>
+<div id="content">
+    {% if reports %}
+        <ul>
+        {% for r in reports %}
+            <li><a href="{% url reports-display r.id %}">{{ r.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock main %}

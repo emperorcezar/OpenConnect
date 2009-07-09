@@ -1,0 +1,20 @@
+{% extends "contacts/subnav.html" %}
+
+{% block main %}
+<h1>Add Event</h1>
+<div id="content">
+    <form method="POST" action="{% url event-add %}">
+        <div id="eventform">
+            {% for field in form %}
+            <div class="row">
+              <span class="item label">{{ field.label_tag }}:</span>
+              <span class="item input">{{ field.errors }}{{ field }}</span>
+            </div>
+            {% endfor %}
+            <div class="row">
+                <span class="item submit"><input type="submit" value="Add Event" /></span>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}

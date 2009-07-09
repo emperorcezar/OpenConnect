@@ -1,0 +1,6 @@
+{% if event.email_confirmation_message %}{{ event.email_confirmation_message|safe }}{% endif %}
+{% if price %}
+<p>The cost for the event is ${{ price }}.</p>
+
+<p>Click <a href="{{ event.payment_link }}">here</a> to pay.</p>
+{% endif %}

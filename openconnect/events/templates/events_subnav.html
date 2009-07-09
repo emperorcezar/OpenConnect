@@ -1,0 +1,19 @@
+{% extends "nav.html" %}
+
+{% block eventsnav %} currentTab{% endblock eventsnav %}
+
+{% block subnav %}
+<div id="subnav-block">
+    <ul id="subnav">
+      <li>
+        <a href="{% url event-search %}">Search Events</a>
+      </li>
+      <li>
+        <a href="{% url event-add %}">Add Event</a>
+      </li>
+      {% block subnavcontext %}
+      {% endblock subnavcontext %}
+    </ul>
+</div>
+{% endblock subnav %}
+

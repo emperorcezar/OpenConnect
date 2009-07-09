@@ -1,0 +1,56 @@
+{% extends "contacts/subnav.html" %}
+
+{% block dojorequires %}
+dojo.require("dojox.form.MultiComboBox");
+dojo.require("custom.GetReadStore");
+{% endblock %}
+
+{% block main %}
+<div dojoType="custom.GetReadStore" jsId="tagstore"
+       url="/taglist.json"></div>
+
+<h1>Edit {{ contact.first_name }} {{ contact.last_name }}</h1>
+<div id="content">
+    <div id="addcontactform">
+        <form style="display: inline;" class="deletecontactform" name="deletecontactform" method="GET" action="{% url contacts-delete contact.id%}">
+            <input type="submit" name="submit" value="Delete contact" />
+        </form>
+        <form style="display: inline;" id="editcontactform" method="POST" action="{% url contacts-edit contact.id%}">
+            <input type="submit" name="submit" value="Save and continue editing" />
+            <input type="submit" name="submit" value="Save and close" />
+            {% for field in cform %}
+                {% ifequal field.label "Row 1" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'Primary Address' 'Secondary Address' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Degree" %}
+                <div class="row">
+                    <span class="item label"><br/><strong>{% cycle 'First Degree' 'Second Degree' %}</strong></span>
+                </div>
+                {% endifequal %}
+                {% ifequal field.label "Tag list" %}
+                <div class="row">
+                    <span class="item label"><br/></span>
+                </div>
+                {% endifequal %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <span class="item submit"><input type="submit" name="submit" value="Save and continue editing" /></span>
+            </div>
+            <div class="row">
+                <span class="item submit"><input type="submit" name="submit" value="Save and close" /></span>
+            </div>
+        </form>
+        <form class="deletecontactform" name="deletecontactform" method="GET" action="{% url contacts-delete contact.id%}">
+            <div class="row">
+                <span class="item submit"><input type="submit" name="submit" value="Delete contact" /></span>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock main %}

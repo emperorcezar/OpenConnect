@@ -1,0 +1,72 @@
+{% extends "nav.html" %}
+
+{% block homenav %} currentTab{% endblock homenav %}
+{% block main %}
+    <h1>Home</h1>
+
+    <div id="zeitgeist">
+        <div id="recentsearches" class="zeitem">
+            <div class="title">Your Recent Saved Searches</div>
+            {% if recentsearches %}
+            {% for s in recentsearches %}
+            <p><a href="{% url contacts-savedsearch s.id %}">{{ s.name }}</a></p>
+            {% endfor %}
+            {% else %}
+                <p>None</p>
+            {% endif %}
+        </div>
+        <div class="dottedline"></div>
+        <div id="recentdrafts" class="zeitem">
+            <div class="title">Your Recent Drafts</div>
+            {% if recentdrafts %}
+            {% for e in recentdrafts %}
+            <p><a href="{% url emails-update e.id %}">{{ e.subject }}</a></p>
+            {% endfor %}
+            {% else %}
+                <p>None</p>
+            {% endif %}
+        </div>
+        <div class="dottedline"></div>
+        <div id="recentcontacts" class="zeitem">
+            <div class="title">Recently Updated Contacts</div>
+            {% if recentupdates %}
+            {% for ru in recentupdates %}
+            <p><a href="{% url contacts-details ru.contact.id %}">{{ ru.contact.first_name }} {{ ru.contact.last_name }}</a></p>
+            {% endfor %}
+            {% else %}
+                <p>None</p>
+            {% endif %}
+        </div>
+        <div class="dottedline"></div>
+        <div id="recentcontacts" class="zeitem">
+            <div class="title">Recently Unsubscribed Contacts</div>
+            {% if recentunsubs %}
+            {% for ru in recentunsubs %}
+            <p><a href="{% url contacts-details ru.contact.id %}">{{ ru.contact.first_name }} {{ ru.contact.last_name }}</a></p>
+            {% endfor %}
+            {% else %}
+                <p>None</p>
+            {% endif %}
+        </div>
+        <div class="dottedline"></div>
+    </div>
+
+    <div id="contentWithZeitgeist">
+    <div id="basicsearch" style="">
+        <form method="POST" action="{% url contacts-searchresults %}">
+            <input type="hidden" name="searchtype" value="basic" />
+            {% for field in form %}
+                <div class="row">
+                    <span class="item label">{{ field.label_tag }}:</span>
+                    <span class="item input">{{ field.errors }}{{ field }}</span>
+                </div>
+            {% endfor %}
+            <div class="row">
+                {% block basicbuttons %}
+                    <span class="item submit"><input type="submit" name="search" value="Search" /></span>
+                {% endblock basicbuttons %}
+            </div>
+        </form>
+    </div>
+    </div>
+{% endblock main %}

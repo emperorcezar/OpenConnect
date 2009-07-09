@@ -1,0 +1,8 @@
+{% if custom_text %}
+{{ custom_text }}
+{% endif %}
+{% if price %}
+The cost for the event is ${{ price }}.
+
+To pay, please to go {{ event.payment_link }}
+{% endif %}
