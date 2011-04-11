@@ -16,6 +16,14 @@ from tagging.models import Tag, TaggedItem
 from emails.models import Email
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
+import unicodedata
+
+def convert_to_ascii(data):
+    if type(data) == str:
+        return data
+
+    return unicodedata.normalize('NFKD', data).encode('ascii','ignore')
+
 
 def remove_tags(contacts, tag_list):
     tags = tagutils.get_tag_list(tag_list)
@@ -77,7 +85,13 @@ def search(request, results="new", page=1, paginate_by=10, rtemplate="contacts/r
         return render_to_response('contacts/search.html', context)
 
     if (request.method == "POST"):  # They've submitted a query, filter the contacts
-        contacts = Contact.objects.all()    # Brand new search results
+        if request.POST.get('search', None) in ('New search', 'Search'):
+            contacts = Contact.objects.all()    # Brand new search results
+	else:
+            session_contacts = request.session.get('searchresults', [])
+            cids = [c.id for c in session_contacts]
+            contacts = Contact.objects.filter(id__in=cids)
+
         request.session['checked_contacts'] = []
 
         if "searchtype" in request.POST:        # if they're performing a search of any kind, go back to page 1
@@ -97,8 +111,8 @@ def search(request, results="new", page=1, paginate_by=10, rtemplate="contacts/r
 
             if form.cleaned_data['tags']:
                 qstagquery = tagutils.get_tag_list(form.cleaned_data['tags'])
-                taggedcontacts = TaggedItem.objects.get_by_model(Contact, [tag.name for tag in qstagquery])
-                contacts = contacts.filter(id__in = [c.id for c in taggedcontacts])
+                contacts = TaggedItem.objects.get_by_model(Contact, [tag.name for tag in qstagquery])
+                #contacts = contacts.filter(id__in = [c.id for c in taggedcontacts])
 
         else:   # BasicSearch form is not valid
             bform = form
@@ -182,37 +196,37 @@ def advanced_search(request):
         if attribute not in ('tag_list', 'full_name'):
             if condition == "contains":
                 attrstr = "%s__%s" % (attribute, "icontains")
-                q = Q( **{ str(attrstr) : str(query) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(query) } )
                 
                 print("Contains %s" %(query,))
 
             elif condition == "doesn't contain":
                 attrstr = "%s__%s" % (attribute, "icontains")
-                q = ~Q( **{ str(attrstr) : str(query) } )
+                q = ~Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(query) } )
 
                 print("Doesn't Contain: %s" %(query,))
 
             elif condition == "is":
                 attrstr = "%s__%s" % (attribute, "exact")
-                q = Q( **{ str(attrstr) : str(query) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(query) } )
 
                 print("Is %s" %(query,))
                                         
             elif condition == "is empty":
                 attrstr = "%s__%s" % (attribute, "exact")
                 query = ""
-                q = Q( **{ str(attrstr) : str(query) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(query) } )
 
                 query = None
-                q = q | Q( **{ str(attrstr) : str(query) } )
+                q = q | Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(query) } )
 
                 
                 print("Is Empty")
 
             elif condition == "is not empty":
                 attrstr = attribute
-                q = ~Q( **{ str(attrstr) : "" } )
-                q = q & ~Q( **{ str(attrstr) : None } )
+                q = ~Q( **{ convert_to_ascii(attrstr) : "" } )
+                q = q & ~Q( **{ convert_to_ascii(attrstr) : None } )
                
                 print("Is Not Empty")
                     
@@ -226,17 +240,14 @@ def advanced_search(request):
                 contacts = contacts | Contact.objects.filter(q)
 
         elif attribute == 'tag_list':
-            print("Hit tags: " + condition)
             ctype = ContentType.objects.get_for_model(Contact)
             temp_contacts = []
 
             if condition == "contains":
                 tags = Tag.objects.filter(name__contains = query.lower())
-                print(str(attribute))
 
             elif condition == "doesn't contain":
                 tags = Tag.objects.filter(name__contains = query)
-                print("tags: " + str(tags))
                 
             elif condition == "is":
                 tags = Tag.objects.filter(name = query)
@@ -261,21 +272,21 @@ def advanced_search(request):
 
             if condition == "contains":
                 attrstr = "first_name__%s" % ("icontains",)
-                q = Q( **{ str(attrstr) : str(first_name) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(first_name) } )
 
                 if len(query.rsplit(' ', 1)) > 1:
                     attrstr = "last_name__%s" % ("icontains",)
-                    q = q & Q( **{ str(attrstr) : str(last_name) } )
+                    q = q & Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(last_name) } )
                 
                 print("Contains %s" %(query,))
 
             elif condition == "doesn't contain":
                 attrstr = "first_name__%s" % ("icontains",)
-                q = Q( **{ str(attrstr) : str(first_name) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(first_name) } )
 
                 if len(query.rsplit(' ', 1)) > 1:
                     attrstr = "last_name__%s" % ("icontains",)
-                    q = q & Q( **{ str(attrstr) : str(last_name) } )
+                    q = q & Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(last_name) } )
 
                 q = ~q
 
@@ -283,31 +294,31 @@ def advanced_search(request):
 
             elif condition == "is":
                 attrstr = "first_name__%s" % ("exact",)
-                q = Q( **{ str(attrstr) : str(first_name) } )
+                q = Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(first_name) } )
 
                 if len(query.rsplit(' ', 1)) > 1:
                     attrstr = "last_name__%s" % ("exact",)
-                    q = q & Q( **{ str(attrstr) : str(last_name) } )
+                    q = q & Q( **{ convert_to_ascii(attrstr) : convert_to_ascii(last_name) } )
 
                 print("Is %s" %(query,))
                                         
             elif condition == "is empty":
                 attrstr = "first_name__%s" % ("exact",)
-                q = Q( **{ str(attrstr) : "" } )
+                q = Q( **{ convert_to_ascii(attrstr) : "" } )
 
                 if len(query.rsplit(' ', 1)) > 1:
                     attrstr = "last_name__%s" % ("exact",)
-                    q = q & Q( **{ str(attrstr) : "" } )
+                    q = q & Q( **{ convert_to_ascii(attrstr) : "" } )
                 
                 print("Is Empty")
 
             elif condition == "is not empty":
                 attrstr = "first_name__%s" % ("exact",)
-                q = ~Q( **{ str(attrstr) : "" } )
+                q = ~Q( **{ convert_to_ascii(attrstr) : "" } )
 
                 if len(query.rsplit(' ', 1)) > 1:
                     attrstr = "last_name__%s" % ("exact",)
-                    q = q & ~Q( **{ str(attrstr) : "" } )
+                    q = q & ~Q( **{ convert_to_ascii(attrstr) : "" } )
                 
                 print("Is Not Empty")
 

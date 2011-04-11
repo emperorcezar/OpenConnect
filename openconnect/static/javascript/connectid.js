@@ -51,7 +51,7 @@ function showPreview() {
     form.appendChild(newinput);
     p.innerHTML = "<h2 style='margin-top: 5px;'>Preview</h2><hr><h3>Subject: "+ form.subject.value +"</h3>"+ 
                   form.message.value + 
-                  "<br><br><span style='font-size: 10px;'>You received this email because of your previous relationship with the IIT Institude of Design.  To unsubscribe, <a href='#'>click here</a>." + 
+                  "<br><br><span style='font-size: 10px;'>You received this email because of your previous relationship with our organization.  To unsubscribe, <a href='#'>click here</a>." + 
                   "<hr><br><input type='button' value='Cancel' onclick='hidePreview();'> <input type='button' value='Send this message' onclick='document.forms[0].submit();'>";
     dojo.place(p, "blackout", "before");
 }

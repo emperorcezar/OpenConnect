@@ -1,5 +1,4 @@
 import smtplib, sys, os, re
-from django.core.mail import EmailMultiAlternatives
 from django.utils.encoding import force_unicode
 import logging
 
@@ -17,6 +16,8 @@ from django.core.urlresolvers import reverse
 from emails.models import Email
 from contacts.models import Contact
 from utils.html import pretty_print
+
+from openconnect.emails.mail import EmailMultiAlternatives
 
 logger = logging.getLogger("email_sender")
 logger.setLevel(logging.INFO)
@@ -95,10 +96,8 @@ for c in e.recipients.all():
     mail.attach_alternative(force_unicode(message), "text/html")
 
     if e.attachment:
-        print "attached"
         mail.attach_file(e.attachment.path)
 
     mail.send()
-    print "email sent"
     logger.info("Sent Email To:%s - From:%s - Subject:%s" % (c.email, get_from(e), e.subject))
 

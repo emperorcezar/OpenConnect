@@ -29,10 +29,9 @@ def rename(request, tagname):
         form = RenameTag(request.POST, instance=Tag.objects.get(name__exact=tagname))   
         if form.is_valid():
             form.save()
-        contacts = Contact.objects.filter(tag_list__contains=tagname)
-        for c in contacts:
-            c.tag_list = edit_string_for_tags(c.tags)
-            c.save()
+	else:
+	    return render_to_response('contacts/renametag.html', context_instance=RequestContext(request, {'form':form, 'tagname':tagname}))
+
         return HttpResponseRedirect('/tagging/manage/')
     else:
         form = RenameTag(instance=Tag.objects.get(name__exact=tagname))

@@ -53,6 +53,11 @@ def exportcsv(request, setname):
                 
             response['Content-Disposition'] = 'attachment; filename=' + name.replace(' ', '_') + '.csv'
         else:
+            try:
+                name = request.session['reportname']
+            except KeyError:
+                name = 'report'
+
             response['Content-Disposition'] = 'attachment; filename=' + name.replace(' ', '_') + '.csv'
 
         writer = UnicodeWriter(response)
